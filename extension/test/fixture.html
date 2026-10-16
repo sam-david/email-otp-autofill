@@ -5,7 +5,7 @@
 </head>
 <body>
 <!-- Manual harness for content.js: a fake chrome.runtime answers with a code 600ms after the field is detected.
-     ?mode=single | split | splitpaste   &match=strong|none   &auto=1|0 -->
+     ?mode=single | split | splitpaste | notcode (ordinary form, must get no chip)   &match=strong|none   &auto=1|0 -->
 <section id="single" hidden>
   <p>We've sent a 6-digit code to sam@example.com</p>
   <form onsubmit="event.preventDefault(); document.title='submitted:' + this.otp.value">
@@ -17,10 +17,15 @@
   <p>Enter the verification code we emailed you</p>
   <div class="boxes"><input maxlength="1"><input maxlength="1"><input maxlength="1"><input maxlength="1"><input maxlength="1"><input maxlength="1"></div>
 </section>
+<section id="notcode" hidden>
+  <!-- Google Calendar's "Create new calendar": "Time zone" once matched one.?time via "zONE TIME" -->
+  <label>Name <input id="c4" autocomplete="off" maxlength="254"></label>
+  <input id="c6" placeholder="Time zone" aria-label="Time zone" autocomplete="off" maxlength="100">
+</section>
 <script>
   const q = new URLSearchParams(location.search);
   const mode = q.get('mode') || 'single';
-  document.getElementById(mode.startsWith('split') ? 'split' : 'single').hidden = false;
+  document.getElementById(mode === 'notcode' ? 'notcode' : mode.startsWith('split') ? 'split' : 'single').hidden = false;
   window.__events = [];
   document.addEventListener('input', (e) => __events.push(e.target.value), true);
   if (mode === 'splitpaste') {

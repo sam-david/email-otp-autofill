@@ -59,6 +59,7 @@ test('other-site sender is not auto-filled', async () => {
   assert.deepEqual(r.values, ['']); assert.equal(r.chip, true);
 });
 // `state` is what the app itself received, the value it would actually submit.
+test('ordinary form fields get no chip (Time zone)', async () => assert.equal((await run('/test/fixture.html?mode=notcode')).chip, false));
 test('input-otp (shadcn/ui)', async () => assert.equal((await run('/test/widgets.html?w=inputotp')).state, '604318'));
 test('react-otp-input', async () => {
   const r = await run('/test/widgets.html?w=reactotp');

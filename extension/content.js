@@ -5,7 +5,7 @@
   if (window.__emailCodeAutofill) return;
   window.__emailCodeAutofill = true;
 
-  const STRONG = /(one.?time|\botp\b|verification|verify|security.?code|auth(entication)?.?code|\b2fa\b|\bmfa\b|totp|passcode|login.?code|sign.?in.?code|confirm(ation)?.?code|access.?code|email.?code)/i;
+  const STRONG = /(\bone.?time|\botp\b|verification|verify|security.?code|auth(entication)?.?code|\b2fa\b|\bmfa\b|totp|passcode|login.?code|sign.?in.?code|confirm(ation)?.?code|access.?code|email.?code)/i;
   const WEAK = /(\bcode\b|\bpin\b|token|digit)/i;
   const EXCLUDE = /(backup|recovery|promo|coupon|discount|gift|voucher|zip|postal|card|cvv|cvc|security.?question|phone|search|referral|invite|captcha|country|area)/i;
   const PAGE_HINT = /((sent|emailed|e-mailed|we.?ve sent|we just sent|enter the|check your).{0,80}(code|verification|inbox|email))|(code.{0,40}(sent|emailed) to)/i;
@@ -20,7 +20,7 @@
     const aria = el.getAttribute('aria-labelledby');
     const ariaText = aria ? aria.split(/\s+/).map((id) => (document.getElementById(id) || {}).textContent || '').join(' ') : '';
     return [el.name, el.id, el.placeholder, el.getAttribute('aria-label'), el.className, el.getAttribute('data-testid'), label, ariaText]
-      .filter((x) => typeof x === 'string').join(' ');
+      .filter((x) => typeof x === 'string' && x).join(' | ');
   }
 
   function visible(el) {

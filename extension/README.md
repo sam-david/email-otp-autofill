@@ -36,7 +36,7 @@ The client ID in `manifest.json` belongs to the author's Google Cloud project an
 ## Tests
 
 ```sh
-node --test test/*.test.js test/*.test.mjs   # 38 tests
+node --test test/*.test.js test/*.test.mjs   # 39 tests
 ```
 
 - `extract.test.js`: code extraction and sender/site matching, hand-written cases.
