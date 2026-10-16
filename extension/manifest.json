@@ -1,0 +1,36 @@
+{
+  "manifest_version": 3,
+  "name": "Email Code Autofill",
+  "version": "0.1.0",
+  "description": "Fills the verification code a site just emailed you, pulled from Gmail and matched to the site you're on.",
+  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEArB2rg86W+RKimWdmy00yAd2989O+GnNQ6n/mJ2AAGKQ30ZHQXDG6qSvX1rvzBASn/n/2frpqtdSCl16qaJOxQC4wtKqd+IUY/iPIWS1ZOTgd8GgSE8uzNgiGanRTuIiSrHn4FABPLJTAeAF1WBN8yiXsapA8Qk7fQVdEnuSx5OVEpQNGl/k4jkFI9M4RTmP5jWNiY/MyDcDez5UELu2kjLyo/Xct6xNMUmgvHwWiJvqtRv2w867eyeNsE/Wlg/D8t6Xsr3nyxSCWyAks+6jXfpBipTuwvGRaBcioYdzEU2yq5DZcDRfaGqwCibGlML+A5VN7Dfyo20bMOv5kLeZ7pQIDAQAB",
+  "permissions": ["identity", "storage"],
+  "host_permissions": [
+    "https://gmail.googleapis.com/*",
+    "https://api.anthropic.com/*"
+  ],
+  "oauth2": {
+    "client_id": "683050516286-9p3stsee1f5bijpeb8oj00m4gim71ic8.apps.googleusercontent.com",
+    "scopes": ["https://www.googleapis.com/auth/gmail.readonly"]
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "exclude_matches": ["https://mail.google.com/*"],
+      "js": ["content.js"],
+      "all_frames": true,
+      "run_at": "document_idle"
+    }
+  ],
+  "commands": {
+    "fill-code": {
+      "suggested_key": { "default": "Alt+Shift+O" },
+      "description": "Fill the latest email code into this page"
+    }
+  },
+  "action": { "default_title": "Email Code Autofill settings" },
+  "options_page": "options.html"
+}

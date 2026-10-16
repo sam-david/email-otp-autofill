@@ -1,0 +1,99 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Email Code Autofill</title>
+  <style>
+    :root { color-scheme: light dark; --bg: #fafafa; --card: #fff; --fg: #18181b; --muted: #71717a; --line: #e4e4e7; --accent: #0a84ff; }
+    @media (prefers-color-scheme: dark) { :root { --bg: #111113; --card: #1c1c1e; --fg: #f4f4f5; --muted: #a1a1aa; --line: #2e2e33; } }
+    body { font: 14px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: var(--bg); color: var(--fg); margin: 0; padding: 32px 16px; }
+    main { max-width: 640px; margin: 0 auto; }
+    h1 { font-size: 20px; margin: 0 0 4px; }
+    .sub { color: var(--muted); margin: 0 0 24px; }
+    section { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 16px 18px; margin-bottom: 16px; }
+    h2 { font-size: 13px; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); margin: 0 0 10px; }
+    label.row { display: flex; gap: 12px; align-items: flex-start; padding: 8px 0; border-top: 1px solid var(--line); }
+    label.row:first-of-type { border-top: 0; }
+    label.row input[type=checkbox] { margin-top: 3px; }
+    .hint { display: block; color: var(--muted); font-size: 12.5px; }
+    input[type=text], input[type=password], input[type=number], select { font: inherit; padding: 6px 8px; border: 1px solid var(--line); border-radius: 7px; background: var(--bg); color: var(--fg); }
+    input[type=password] { width: 100%; box-sizing: border-box; }
+    button { font: inherit; font-weight: 600; padding: 7px 14px; border-radius: 8px; border: 0; background: var(--accent); color: #fff; cursor: pointer; }
+    button.secondary { background: transparent; color: var(--fg); border: 1px solid var(--line); }
+    .status { font-weight: 600; }
+    .dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; background: var(--muted); }
+    .dot.on { background: #16a34a; box-shadow: 0 0 0 3px #16a34a33; } .dot.err { background: #ea580c; }
+    #gmailDetail { color: var(--muted); font-size: 12.5px; margin-top: 6px; }
+    table { width: 100%; border-collapse: collapse; font-size: 12.5px; margin-top: 10px; }
+    td, th { text-align: left; padding: 5px 6px; border-top: 1px solid var(--line); vertical-align: top; }
+    code { font-family: ui-monospace, Menlo, monospace; }
+    .inline { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+  </style>
+</head>
+<body>
+<main>
+  <h1>Email Code Autofill</h1>
+  <p class="sub">Fills verification codes from Gmail into the page you're on.</p>
+
+  <section>
+    <h2>Gmail</h2>
+    <div class="inline">
+      <span id="gmailDot" class="dot"></span>
+      <span id="gmailStatus" class="status">Checking…</span>
+      <span style="flex:1"></span>
+      <button id="connect">Connect Gmail</button>
+      <button id="disconnect" class="secondary" hidden>Disconnect</button>
+    </div>
+    <div id="gmailDetail"></div>
+  </section>
+
+  <section>
+    <h2>Behavior</h2>
+    <label class="row"><input type="checkbox" id="domainMatching">
+      <span>Domain matching
+        <span class="hint">Only auto-fill when the email's sender is the site you're on. Other codes still show up, with a warning, for you to fill with one click. Off: always fill the newest code.</span></span></label>
+    <label class="row"><input type="checkbox" id="autoFill">
+      <span>Auto-fill
+        <span class="hint">Fill the field as soon as the code arrives. Off: wait for you to click Fill or press the shortcut.</span></span></label>
+    <label class="row"><input type="checkbox" id="autoSubmit">
+      <span>Auto-submit after filling
+        <span class="hint">Clicks the form's submit button. Many code fields already submit on the last digit.</span></span></label>
+    <label class="row"><span style="flex:1">How far back to look
+        <span class="hint">Emails that arrived up to this many seconds before the code field appeared still count.</span></span>
+      <input type="number" id="lookbackSeconds" min="0" max="1800" step="30" style="width:80px"></label>
+  </section>
+
+  <section>
+    <h2>AI fallback</h2>
+    <label class="row"><input type="checkbox" id="aiFallback">
+      <span>Use Claude when the built-in rules aren't sure
+        <span class="hint">Sent to the Anthropic API only when a verification-looking email has no clear "your code is X" phrasing: the rules found nothing, or only guessed. Clear-cut emails never leave your browser. The code Claude returns is used only if it appears word-for-word in the email.</span></span></label>
+    <label class="row"><span style="flex:1">Anthropic API key
+        <input type="password" id="anthropicKey" placeholder="sk-ant-…" autocomplete="off"></span></label>
+    <label class="row"><span style="flex:1">Model</span>
+      <select id="aiModel">
+        <option value="claude-opus-5-5">Claude Opus 5.5</option>
+        <option value="claude-sonnet-5-5">Claude Sonnet 5.5</option>
+        <option value="claude-haiku-5-5">Claude Haiku 5.5</option>
+      </select></label>
+  </section>
+
+  <section>
+    <h2>Test against your inbox</h2>
+    <div class="inline">
+      <input type="text" id="testSite" placeholder="site, e.g. github.com" style="flex:1;min-width:180px">
+      <select id="testMinutes"><option value="10">last 10 min</option><option value="60" selected>last hour</option><option value="1440">last day</option></select>
+      <button id="test" class="secondary">Find codes</button>
+    </div>
+    <div id="testOut"></div>
+  </section>
+
+  <section>
+    <h2>Recent activity</h2>
+    <span class="hint">Which sender's code was offered to which site. Codes themselves are never stored.</span>
+    <div id="audit"></div>
+  </section>
+</main>
+<script src="options.js"></script>
+</body>
+</html>

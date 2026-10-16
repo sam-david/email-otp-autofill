@@ -1,0 +1,122 @@
+[
+ {
+  "senderDomain": "mylogin.norton.com",
+  "subject": "374073 is your one-time passcode",
+  "body": "374073 is your one-time passcode Hello, You requested a one-time passcode. Use this passcode to continue your process. 374073 If you didn't request this email, please ignore it. —Your Norton Team",
+  "expected": "374073"
+ },
+ {
+  "senderDomain": "myaccount.ring.com",
+  "subject": "Details about your recent sign-in",
+  "body": "We're just making sure this was you",
+  "expected": null
+ },
+ {
+  "senderDomain": "readyrx.com",
+  "subject": "494389 is your ReadyRx sign-in code",
+  "body": "494389 is your ReadyRx sign-in code. It expires in 10 minutes. Email: you@example.com Ready RX sign-in code We received a request to sign in using this email address.",
+  "expected": "494389"
+ },
+ {
+  "senderDomain": "zebra.com",
+  "subject": "Here is your one-time passcode",
+  "body": "Your One-Time Passcode (OTP) is: 547684 This code will expire in 10 minutes. If you did not request this code, change your password immediately. Zebra Technologies",
+  "expected": "547684"
+ },
+ {
+  "senderDomain": "walmart.com",
+  "subject": "Your verification code is 451447",
+  "body": "This code expires in 15 minutes",
+  "expected": "451447"
+ },
+ {
+  "senderDomain": "google.com",
+  "subject": "Thanks for redeeming your promotional code",
+  "body": "Your Customer ID: 000-000-0000 Sign In Congrats on redeeming your Google Ads offer Thank you for trying Google Ads to grow your business. You're now on your way to earning $500 in ad credit for",
+  "expected": null
+ },
+ {
+  "senderDomain": "signin.autodesk.com",
+  "subject": "One-time passcode",
+  "body": "Autodesk One-time passcode To complete the action for your Autodesk account, enter the one-time passcode (OTP). Code: 630027 Don't share this code with anyone or forward this email. Autodesk, Inc.",
+  "expected": "630027"
+ },
+ {
+  "senderDomain": "mail.identity.lego.com",
+  "subject": "Your LEGO® code: 237604",
+  "body": "Here's your code Hi LEGO® friend! Here's the code you'll need to verify your account: 237604 The code will work for the next 6 minutes.",
+  "expected": "237604"
+ },
+ {
+  "senderDomain": "info.coinbase.com",
+  "subject": "Verify your device to sign in",
+  "body": "Verify your device to sign in We detected a recent sign in attempt on your Coinbase account from an unrecognized device. Location : California, United States Browser : Chrome 152.0.0.0 Operating",
+  "expected": null
+ },
+ {
+  "senderDomain": "e.myplanportal.com",
+  "subject": "Acme Health Verification Code Request",
+  "body": "Trouble viewing this? Read it online. Acme Health Acme Health Here's a verification code for your Acme Health member website Your code is: 036155 This secure code expires soon, so verify your account now.",
+  "expected": "036155"
+ },
+ {
+  "senderDomain": "linkedin.com",
+  "subject": "Meta hard launches Silicon Valley's new dress code",
+  "body": "Alexandr Wang has a fresh look for chief AI officers.",
+  "expected": null
+ },
+ {
+  "senderDomain": "notifications.heroku.com",
+  "subject": "Remember to Register a Backup MFA Verification Method",
+  "body": "Thank you for protecting your account by enabling MFA. We noticed that you have only one MFA verification method registered. We strongly recommend registering multiple verification methods",
+  "expected": null
+ },
+ {
+  "senderDomain": "appstore.amazon.com",
+  "subject": "[Reminder - Action Required] Verify your Amazon Developer Account",
+  "body": "English 日本語 (Japanese) 中文 (Chinese) English Hello there, This is a reminder to verify your identity for the Amazon Appstore Developer Account associated with you@example.com. If you do not complete",
+  "expected": null
+ },
+ {
+  "senderDomain": "my.sinch.com",
+  "subject": "Your verification code",
+  "body": "Verify your email Entering the code below to verify this email address belongs to you: 656976 This code will expire in 10 minutes.",
+  "expected": "656976"
+ },
+ {
+  "senderDomain": "accountprotection.microsoft.com",
+  "subject": "Your single-use code",
+  "body": "Hi you@example.com, We received your request for a single-use code to use with your Microsoft account. Your single-use code is: 479048 Only enter this code on an official website or app.",
+  "expected": "479048"
+ },
+ {
+  "senderDomain": "otp.progressive.com",
+  "subject": "Progressive verification code",
+  "body": "Here's your verification code 623446 This code can only be used once. It will expire in 10 minutes.",
+  "expected": "623446"
+ },
+ {
+  "senderDomain": "auth.simplisafe.com",
+  "subject": "SimpliSafe Account New Device Login",
+  "body": "Someone tried to log in to your SimpliSafe account from a new device: Unknown Mozilla/5.0 (iPhone; CPU iPhone OS 18_7 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 IP address:",
+  "expected": null
+ },
+ {
+  "senderDomain": "auth.simplisafe.com",
+  "subject": "SimpliSafe Account New Device Login",
+  "body": "Someone tried to log in to your SimpliSafe account from a new device: SimpliSafe iOS App iPhone IP address: 203.0.113.7 We want to make sure that it's really you. Click below to verify",
+  "expected": null
+ },
+ {
+  "senderDomain": "switch-bot.com",
+  "subject": "Change login password",
+  "body": "You are changing the SwitchBot account login password, and the verification code is 388680. It will expire in 15 minutes. Please keep it confidential.",
+  "expected": "388680"
+ },
+ {
+  "senderDomain": "email.claude.com",
+  "subject": "This week in Claude Code: build your own mods, a wrap-up allowance, and more",
+  "body": "Plus: 20% higher limits, Opus and Sonnet 5.5, and extra usage to try cloud sessions",
+  "expected": null
+ }
+]

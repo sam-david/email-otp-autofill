@@ -1,0 +1,66 @@
+<!doctype html>
+<html>
+<head><meta charset="utf-8"><title>OTP fixture</title>
+<style>body{font:15px system-ui;padding:40px} .boxes input{width:32px;text-align:center;font-size:20px;margin-right:4px} section{margin-bottom:60px}</style>
+</head>
+<body>
+<!-- Manual harness for content.js: a fake chrome.runtime answers with a code 600ms after the field is detected.
+     ?mode=single | split | splitpaste   &match=strong|none   &auto=1|0 -->
+<section id="single" hidden>
+  <p>We've sent a 6-digit code to sam@example.com</p>
+  <form onsubmit="event.preventDefault(); document.title='submitted:' + this.otp.value">
+    <input name="otp" autocomplete="one-time-code" inputmode="numeric" maxlength="6">
+    <button>Verify</button>
+  </form>
+</section>
+<section id="split" hidden>
+  <p>Enter the verification code we emailed you</p>
+  <div class="boxes"><input maxlength="1"><input maxlength="1"><input maxlength="1"><input maxlength="1"><input maxlength="1"><input maxlength="1"></div>
+</section>
+<script>
+  const q = new URLSearchParams(location.search);
+  const mode = q.get('mode') || 'single';
+  document.getElementById(mode.startsWith('split') ? 'split' : 'single').hidden = false;
+  window.__events = [];
+  document.addEventListener('input', (e) => __events.push(e.target.value), true);
+  if (mode === 'splitpaste') {
+    // Widget that distributes a pasted code itself, like most OTP components.
+    const boxes = [...document.querySelectorAll('.boxes input')];
+    boxes[0].addEventListener('paste', (e) => {
+      e.preventDefault();
+      const t = e.clipboardData.getData('text/plain');
+      boxes.forEach((b, i) => { b.value = t[i] || ''; });
+      window.__pasteHandled = true;
+    });
+  }
+  window.chrome = { runtime: {
+    onMessage: { addListener() {} },
+    connect() {
+      const listeners = [];
+      return {
+        onMessage: { addListener: (f) => listeners.push(f) },
+        onDisconnect: { addListener() {} },
+        disconnect() {},
+        postMessage(m) {
+          window.__sent = (window.__sent || []).concat(m.type);
+          if (m.type !== 'start') return;
+          setTimeout(() => listeners.forEach((f) => f({
+            type: 'candidate', code: '604318', sender: 'Stripe', senderDomain: 'stripe.com',
+            match: q.get('match') || 'strong', receivedAt: Date.now() - 4000,
+            autoFill: q.get('auto') !== '0', autoSubmit: q.get('submit') === '1',
+          })), 600);
+        },
+      };
+    },
+  } };
+</script>
+<script src="../content.js"></script>
+<script>
+  setTimeout(() => document.body.setAttribute('data-result', JSON.stringify({
+    values: [...document.querySelectorAll('section:not([hidden]) input')].map((i) => i.value),
+    title: document.title, pasteHandled: !!window.__pasteHandled, sent: window.__sent,
+    chip: !!document.querySelector('email-code-autofill'),
+  })), 1500);
+</script>
+</body>
+</html>
